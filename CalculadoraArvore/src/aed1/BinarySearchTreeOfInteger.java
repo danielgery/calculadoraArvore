@@ -2,220 +2,246 @@ package aed1;
 
 import java.util.Queue;
 
+
 public class BinarySearchTreeOfInteger {
-    
-    // Classe interna privada
-    private static final class Node {
-        public Node father;
-        public Node left;
-        public Node right;
-        public Integer element;
-        public Node(Integer element) {
-            father = null;
-            left = null;
-            right = null;
-            this.element = element;
-        }
-    }
 
-    
-    // Atributos        
-    private int count; //contagem do numero de nodos
-    private Node root; //referencia para o nodo raiz
+	// Classe interna privada
+	private static final class Node {
+		public Node father;
+		public Node left;
+		public Node right;
+		public Integer element;
 
+		public Node(Integer element) {
+			father = null;
+			left = null;
+			right = null;
+			this.element = element;
+		}
+	}
 
-    // Metodos
-    public BinarySearchTreeOfInteger() {
-        count = 0;
-        root = null;
-    }
+	// Atributos
+	private int count; // contagem do numero de nodos
+	private Node root; // referencia para o nodo raiz
 
-    public void clear() {
-        count = 0;
-        root = null;      
-    }
-    
-    public boolean isEmpty() {
-        return (root == null);
-    }
+	// Metodos
+	public BinarySearchTreeOfInteger() {
+		count = 0;
+		root = null;
+	}
 
-    public int size() {
-        return count;
-    }
+	public void clear() {
+		count = 0;
+		root = null;
+	}
 
-    public Integer getRoot() {
-        if (isEmpty()) {
-            throw new EmptyTreeException();
-        }
-        return root.element;
-    }
-    
-	// Conta o numero de nodos da arvore	
-    public int count() {
-        return count(root);
-    }
+	public boolean isEmpty() {
+		return (root == null);
+	}
 
-	// Conta o numero de nodos a partir da subarvore cuja referencia  
+	public int size() {
+		return count;
+	}
+
+	public Integer getRoot() {
+		if (isEmpty()) {
+			throw new EmptyTreeException();
+		}
+		return root.element;
+	}
+
+	// Conta o numero de nodos da arvore
+	public int count() {
+		return this.count;
+//		 return count(root);
+	}
+
+	// Conta o numero de nodos a partir da subarvore cuja referencia
 	// para a raiz esta sendo passada por parametro
-    private int count(Node n) {// TODO
+	private int count(Node n) {// TODO
 		// Implemente este metodo
-        return 0;
-    }
+		if (n != null)
+			return 1 + count(n.left) + count(n.right);
+		else
+			return 0;
+	}
 
-    public void add(Integer element) {
-        root = add(root, element, null);
-        count++;
-    }
-    private Node add(Node n, Integer e, Node father) {// TODO
-        // Implemente este método
-        return null;
-    }
+	public void add(Integer element) {
+		root = add(root, element, null);
+		count++;
+	}
 
-    private Node searchNodeRef(Integer element, Node n) {// TODO
-        // Implemente este metodo 
-        return null;
-    }        
-    
-    public Integer getLeft(Integer element) {
-        Integer res = null;
-        Node nAux = searchNodeRef(element, root);
-        if (nAux != null) {
-            if (nAux.left != null) {
-                res = nAux.left.element;
-            }
-        }
-        return res;
-    }
+	private Node add(Node n, Integer e, Node father) {// TODO
+		if (n == null) {System.out.println("Add: " + e);
+			Node aux = new Node(e);
+			aux.father = father;
+			return aux;
+		}
+		if (n.element.compareTo(e) < 0) {
+			// continua lado direito
+			n.right = add(n.right, e, n);
+		} else {
+			// continua lado esquerdo
+			n.left = add(n.left, e, n);
+		}
+		return n;
 
-    public Integer getRight(Integer element) {// TODO
-        // Implemente este metodo 
-        return 0;
-    }
+	}
 
-    public Integer getParent(Integer element) {// TODO
-        // Implemente este metodo         
-        return 0;
-    }
+	private Node searchNodeRef(Integer element, Node n) {// TODO
+		// Implemente este metodo
+		if(n.element.equals(element)) {
+			return n;
+		}		
+		return null;
+	}
 
-    public LinkedListOfInteger positionsPre() {
-        LinkedListOfInteger res = new LinkedListOfInteger();
-        positionsPreAux(root, res);
-        return res;
-    }
-    private void positionsPreAux(Node n, LinkedListOfInteger res) {
-        if (n != null) {
-            res.add(n.element); //Visita o nodo
-            positionsPreAux(n.left, res); //Visita a subarvore esquerda
-            positionsPreAux(n.right, res); //Visita a subarvore direita
-        }
-    }
+	public Integer getLeft(Integer element) {
+		Integer res = null;
+		Node nAux = searchNodeRef(element, root);
+		if (nAux != null) {
+			if (nAux.left != null) {
+				res = nAux.left.element;
+			}
+		}
+		return res;
+	}
 
-    public LinkedListOfInteger positionsPos() {
-        LinkedListOfInteger res = new LinkedListOfInteger();
-        positionsPosAux(root, res);
-        return res;
-    }
-    private void positionsPosAux(Node n, LinkedListOfInteger res) {
-        if (n != null) {
-            positionsPosAux(n.left, res); //Visita a subarvore esquerda
-            positionsPosAux(n.right, res); //Visita a subarvore direita
-            res.add(n.element); //Visita o nodo
-        }
-    }
+	public Integer getRight(Integer element) {// TODO
+		// Implemente este metodo
+		return 0;
+	}
 
-    public LinkedListOfInteger positionsCentral() {
-        LinkedListOfInteger res = new LinkedListOfInteger();
-        positionsCentralAux(root, res);
-        return res;
-    }
-    private void positionsCentralAux(Node n, LinkedListOfInteger res) {
-        if (n != null) {
-            positionsCentralAux(n.left, res); //Visita a subarvore esquerda
-            res.add(n.element); //Visita o nodo
-            positionsCentralAux(n.right, res); //Visita a subarvore direita
-        }
-    }
+	public Integer getParent(Integer element) {// TODO
+		// Implemente este metodo
+		return 0;
+	}
 
-    public LinkedListOfInteger positionsWidth() {// TODO
-//        Queue<Node> fila = new Queue<>();
-        LinkedListOfInteger res = new LinkedListOfInteger();
-        // Implemente este metodo         
-        return res;
-    }
+	public LinkedListOfInteger positionsPre() {
+		LinkedListOfInteger res = new LinkedListOfInteger();
+		positionsPreAux(root, res);
+		return res;
+	}
 
-    public String strTraversalPre() {
-        return strTraversalPre(root);
-    }
-    private String strTraversalPre(Node n) {// TODO
-        String res = "";
-        // Implemente este metodo
-        return res;
-    }
+	private void positionsPreAux(Node n, LinkedListOfInteger res) {
+		if (n != null) {
+			res.add(n.element); // Visita o nodo
+			System.out.println(n.element);
+			positionsPreAux(n.left, res); // Visita a subarvore esquerda
+			positionsPreAux(n.right, res); // Visita a subarvore direita
+		}
+	}
 
-    public String strTraversalPos() {
-        return strTraversalPos(root);
-    }
-    private String strTraversalPos(Node n) {// TODO
-        String res = "";
-        // Implemente este metodo
-        return res;
-    }
+	public LinkedListOfInteger positionsPos() {
+		LinkedListOfInteger res = new LinkedListOfInteger();
+		positionsPosAux(root, res);
+		return res;
+	}
 
-    public String strTraversalCentral() {
-        return strTraversalCentral(root);
-    }
-    private String strTraversalCentral(Node n) {// TODO
-        String res = "";
-        // Implemente este metodo
-        return res;
-    }
+	private void positionsPosAux(Node n, LinkedListOfInteger res) {
+		if (n != null) {
+			positionsPosAux(n.left, res); // Visita a subarvore esquerda
+			positionsPosAux(n.right, res); // Visita a subarvore direita
+			res.add(n.element); // Visita o nodo
+		}
+	}
 
-    public boolean contains(Integer element) {
-        Node nAux = searchNodeRef(element, root);
-        return (nAux != null);
-    }
+	public LinkedListOfInteger positionsCentral() {
+		LinkedListOfInteger res = new LinkedListOfInteger();
+		positionsCentralAux(root, res);
+		return res;
+	}
 
+	private void positionsCentralAux(Node n, LinkedListOfInteger res) {
+		if (n != null) {
+			positionsCentralAux(n.left, res); // Visita a subarvore esquerda
+			res.add(n.element); // Visita o nodo
+			positionsCentralAux(n.right, res); // Visita a subarvore direita
+		}
+	}
 
-    public boolean remove(Integer element) {// TODO
-        // Implemente este metodo
-        return true;
-    }
+	public LinkedListOfInteger positionsWidth() {// TODO
+		// Queue<Node> fila = new Queue<>();
+		LinkedListOfInteger res = new LinkedListOfInteger();
+		// Implemente este metodo
+		return res;
+	}
 
-    private Node smallest(Node n) {// TODO
-        // Implemente este metodo sabendo que ele deve
-        // retornar o menor elemento da subarvore 
-        // passada por parametro.
-        return null;
-    }
+	public String strTraversalPre() {
+		return strTraversalPre(root);
+	}
 
-    public boolean removeBranch(Integer element) {// TODO
-        // Implemente este metodo
-        return false;
-    }
+	private String strTraversalPre(Node n) {// TODO
+		String res = "";
+		// Implemente este metodo
+		return res;
+	}
 
-    public int height() {// TODO
-        //Implemente este metodo (de preferencia de forma recursiva)
-        return 0;
-    }
-     
-    public Integer set(Integer old, Integer element) {// TODO
-        // Implemente este metodo lembrando que a arvore
-        // deve continuar ordenada
-        return 0;
-    }
+	public String strTraversalPos() {
+		return strTraversalPos(root);
+	}
 
-    public boolean isRoot(Integer element) {
-        if (root != null) {
-            if (root.element.equals(element)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	private String strTraversalPos(Node n) {// TODO
+		String res = "";
+		// Implemente este metodo
+		return res;
+	}
 
-    public int level(Integer element) {// TODO
-        //Implemente este metodo
-        return 0;
-    }    
-    
+	public String strTraversalCentral() {
+		return strTraversalCentral(root);
+	}
+
+	private String strTraversalCentral(Node n) {// TODO
+		String res = "";
+		// Implemente este metodo
+		return res;
+	}
+
+	public boolean contains(Integer element) {
+		Node nAux = searchNodeRef(element, root);
+		return (nAux != null);
+	}
+
+	public boolean remove(Integer element) {// TODO
+		// Implemente este metodo
+		return true;
+	}
+
+	private Node smallest(Node n) {// TODO
+		// Implemente este metodo sabendo que ele deve
+		// retornar o menor elemento da subarvore
+		// passada por parametro.
+		return null;
+	}
+
+	public boolean removeBranch(Integer element) {// TODO
+		// Implemente este metodo
+		return false;
+	}
+
+	public int height() {// TODO
+		// Implemente este metodo (de preferencia de forma recursiva)
+		return 0;
+	}
+
+	public Integer set(Integer old, Integer element) {// TODO
+		// Implemente este metodo lembrando que a arvore
+		// deve continuar ordenada
+		return 0;
+	}
+
+	public boolean isRoot(Integer element) {
+		if (root != null) {
+			if (root.element.equals(element)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public int level(Integer element) {// TODO
+		// Implemente este metodo
+		return 0;
+	}
+
 }
