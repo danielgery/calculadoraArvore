@@ -29,6 +29,7 @@ public class App {
             while (sc.hasNext()) {
                 String linha = sc.next().trim();
                 System.out.println("\nCalculando:   "+linha);
+                try {
                 for(int i = 0; i < linha.length(); i++) {
                 	
 	                switch (linha.charAt(i)) {	                    
@@ -67,20 +68,26 @@ public class App {
 	                            arvore.add(valor);
 //	                            monta.valor(valor);
 	                        } catch (NumberFormatException e) {
-	                            JOptionPane.showMessageDialog(null, "CARACTERE NÃO RECONHECIDO '" + linha.charAt(i) + "'  ");
+	                        	System.err.format("CARACTERE NÃO RECONHECIDO '" + linha.charAt(i) + "'  ");
 	                        }catch (StringIndexOutOfBoundsException e) {
-	                            JOptionPane.showMessageDialog(null, "CARACTERE NÃO RECONHECIDO  '" + linha.charAt(i) + "'   ");
-	                        }catch (FaltaDeParentesesException e) {
-	                            JOptionPane.showMessageDialog(null, "CARACTERE NÃO RECONHECIDO  '" + linha.charAt(i) + "'   ");
-	                        }
+	                        	System.err.format("CARACTERE NÃO RECONHECIDO  '" + linha.charAt(i) + "'   ");
+	                        
 	
 	                }
+                }
+	                
                 }
                 System.out.println("Altura:            " + arvore.altura());
                 System.out.println("Média dos números: " + arvore.media());
                 arvore.calcular();
                 System.out.println("Resultado =        " + arvore.resultado());
-//                System.out.println("Altura:     " + arvore.altura());
+                }catch (FaltaDeParentesesException e) {
+                	System.err.format("FALTA DE PARENTESES");
+                }
+               
+
+                arvore.clear();
+                numLinha = 1;
             }
             
 //            JOptionPane.showMessageDialog(null, "Resultado: " + monta.getTop() + "\nTamanho mÃ¡ximo da pilha: " + monta.getMax());

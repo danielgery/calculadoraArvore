@@ -159,18 +159,19 @@ public class BinaryTree {
 		}
 	}
 	
-	public void calcular() {
-		if(ref != root) {
-			System.out.println("ERRO: FALTAM ')' PARA FECHAR! ");
-			return;
+	public void calcular() throws FaltaDeParentesesException {
+		if(ref != root) {			
+			throw new FaltaDeParentesesException();
+			
 		}
 		while(!ehFolha(root))
 			calcular(root);
 	}
 	
-	private void calcular(Node n) {
-		if(n == null) {
-			return;
+	private void calcular(Node n) throws FaltaDeParentesesException {
+		if(n == null || n.element == null) {
+			
+			throw new FaltaDeParentesesException();
 		}
 		if(filhosFolhas(n)) {
 			double elemento1 = Double.parseDouble(n.left.element);
@@ -325,6 +326,10 @@ public class BinaryTree {
 	public void clear() {
 		count = 0;
 		root = null;
+		ref = null;
+		total = 0;
+		altura = 0;
+		numFolhas = 0;
 	}
 
 	public int size() {
