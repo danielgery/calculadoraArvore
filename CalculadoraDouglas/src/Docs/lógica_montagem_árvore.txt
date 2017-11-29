@@ -1,0 +1,30 @@
+#### Narração escrita da sequência lógica da montagem da árvore ####
+
+1) Ao encontrar parentese esquerdo "(" cria nodo filho
+	• Insere o nodo filho a esquerda ou direita da localização atual
+	• Posiciona-se no nodo em questão
+	• Caso ambos estejam preenchidos |-> "Mais de 2 valores para operação"
+	• Analisa o próximo
+
+2) Ao encontrar um numero armazena na virável temporária TMP e analise o proximo
+	• Caso o próximo seja um operador
+		• Insere o operador
+		• Insere a esquerda o valor de TMP
+		• Transforma TMP em null
+	• Caso seja um ")"
+		• Insere a direita o valor de TMP
+		• Transforma TMP em null
+		• Analisa o próximo
+		
+3) Ao encontrar um parentese direito ")" volta ao nodo pai
+
+4) Ao encontrar um operador
+	• o nodo atual é nulo
+		• Insere o operador
+		• Analisa o próximo
+	• o nodo atual está preenchido |-> "Numeração de parenteses incorreta"
+
+5) Ao encontrar uma quebra de linha "\n" 
+	• Verifica se está no Root
+		• Arvore montada
+		• Caso contrario |-> "Numeração de parenteses incorreta"
