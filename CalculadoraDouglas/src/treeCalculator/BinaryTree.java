@@ -1,5 +1,7 @@
 package treeCalculator;
 
+
+
 /**
  *
  * @author Doug
@@ -10,6 +12,9 @@ public class BinaryTree {
 	private int count;
 	private boolean opExterna;
 	private Node ref;
+	private int altura = 0;
+	private double total = 0;
+	private int numFolhas = 0;
 
 	public BinaryTree() {
 		root = null;
@@ -112,7 +117,7 @@ public class BinaryTree {
 			count++;
 			return;
 		}
-		if(ref == null) {//unica vez que o root é alterado
+		if(ref == null) {//unica vez que o root ï¿½ alterado
 			ref = n;
 			ref.left = root;
 			root.father = ref;
@@ -164,12 +169,12 @@ public class BinaryTree {
 	}
 	
 	private void calcular(Node n) {
-		if(n != null) {
+		if(n == null) {
 			return;
 		}
 		if(filhosFolhas(n)) {
 			double elemento1 = Double.parseDouble(n.left.element);
-			double elemento2 =Double.parseDouble(n.right.element);
+			double elemento2 = Double.parseDouble(n.right.element);
 			double resultado = 0;
 			switch (n.element) {
             case "+":
@@ -188,8 +193,8 @@ public class BinaryTree {
             	resultado = Math.pow(elemento1, elemento2);
                 break;
 			}
-			n.left = null;
-			n.right = null;
+			n.left = null;count--;
+			n.right = null;count--;
 			n.set(""+resultado);
 			close();
 		}else {
@@ -220,23 +225,29 @@ public class BinaryTree {
 		return false;
 	}
 
-	public void addOperador(String operador) {
-		if (root == null) {
-			Node n = new Node(operador);
-			root = n;
-			ref = n;
-			n.father = ref;
-			count++;
-			return;
-		}else
-		ref.set(operador);
-	}
+	public void addOperador(String operador) throws FaltaDeParentesesException {
+		Node n = new Node(operador);
+			if (ref == null) {			
+				ref = n;
+				root.father = n;
+				root = n;			
+				
+				count++;
+				return;
+			}else {
+				if(ref.element == null) {
+					ref.set(operador);
+				}else {
+					throw new FaltaDeParentesesException();
+				}
+			}
+		}
 
 	public void close() {
 		if (ref == root) {
 			return;
 		}else
-		ref = ref.father;
+			ref = ref.father;
 	}
 
 	public boolean addLeft(String s) {
@@ -340,8 +351,9 @@ public class BinaryTree {
 		return res;
 	}
 
-	private void positionsPosAux(Node n, LinkedList res) {
+	private void positionsPosAux(Node n, LinkedList res) {		
 		if (n != null) {
+			
 			positionsPosAux(n.left, res); // Visita a subarvore esquerda
 			positionsPosAux(n.right, res); // Visita a subarvore direita
 			res.add(n.element); // Visita o nodo
@@ -387,4 +399,37 @@ public class BinaryTree {
 		}
 		return null;
 	}
+
+	public int altura() {		
+		altura(root);
+		return altura;
+		
+	}
+	
+	private void altura(Node n){
+		if(n == null){
+			return;
+		}else{
+			
+				altura(n.left);				
+			
+				altura(n.right);
+			if(ehFolha(n)){
+				numFolhas++;
+				total += Double.parseDouble(n.element);
+				int i = 1;
+				while(n.father != root){
+					i++;
+					n = n.father;
+				}if(i > altura)				
+					altura = i;
+				}
+			}
+	}
+
+	public double media() {
+		return total/numFolhas;
+		
+	}
+	
 }
