@@ -62,9 +62,9 @@ public class App {
 	                            int j = 1;
 	                            while(verificaSeeInteiro(""+linha.charAt(i+j))) {
 	                            	valor += ""+linha.charAt(i+j);
-	                            	j++;
-	                            	i++;
+	                            	j++;	                            	
 	                            }
+	                            i= i+j;
 	                            arvore.add(valor);
 //	                            monta.valor(valor);
 	                        } catch (NumberFormatException e) {
@@ -77,17 +77,19 @@ public class App {
                 }
 	                
                 }
+                System.out.println("Central: "+arvore.positionsCentral());
+                System.out.println("Largura: "+ arvore.positionsWidth());
                 System.out.println("Altura:            " + arvore.altura());
                 System.out.println("Média dos números: " + arvore.media());
                 arvore.calcular();
                 System.out.println("Resultado =        " + arvore.resultado());
+                
                 }catch (FaltaDeParentesesException e) {
-                	System.err.format("FALTA DE PARENTESES");
+                	System.out.format("Erro: FALTA DE PARENTESES\n");
+                }finally{
+	                arvore.clear();
+	                numLinha = 1;
                 }
-               
-
-                arvore.clear();
-                numLinha = 1;
             }
             
 //            JOptionPane.showMessageDialog(null, "Resultado: " + monta.getTop() + "\nTamanho mÃ¡ximo da pilha: " + monta.getMax());

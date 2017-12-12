@@ -4,7 +4,7 @@ public class FaltaDeParentesesException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 	public FaltaDeParentesesException() {
-		super("Erro!\nFalta de parenteses! ");
+		super();
 	}
 	@Override
 	public String getMessage() {

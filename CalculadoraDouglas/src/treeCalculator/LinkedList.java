@@ -265,7 +265,7 @@ public class LinkedList {
 
         while (aux != null ) {
             s.append(aux.element.toString());
-            s.append("\n");
+            s.append(" ");
             aux = aux.next;
         }
 

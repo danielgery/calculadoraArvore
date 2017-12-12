@@ -1,7 +1,5 @@
 package treeCalculator;
 
-
-
 /**
  *
  * @author Doug
@@ -43,8 +41,8 @@ public class BinaryTree {
 			element = s;
 		}
 
-		public void set(String s) {			
-			element = s;			
+		public void set(String s) {
+			element = s;
 		}
 	}
 
@@ -113,20 +111,20 @@ public class BinaryTree {
 		Node n = new Node();
 		if (root == null) {
 			root = n;
-			ref = root;			
+			ref = root;
 			count++;
 			return;
 		}
-		if(ref == null) {//unica vez que o root � alterado
-			ref = n;
-			ref.left = root;
-			root.father = ref;
-			root = ref;
-			count++;
-			return;
-		}
+//		if (ref == null) {// unica vez que o root � alterado
+//			ref = n;
+//			ref.left = root;
+//			root.father = ref;
+//			root = ref;
+//			count++;
+//			return;
+//		}
 		if (ref.left == null) {
-			ref.left = n;			
+			ref.left = n;
 			n.father = ref;
 			ref = ref.left;
 			count++;
@@ -135,7 +133,7 @@ public class BinaryTree {
 		if (ref.right == null) {
 			ref.right = n;
 			n.father = ref;
-			ref = ref.right;			
+			ref = ref.right;
 			count++;
 			return;
 		}
@@ -158,53 +156,58 @@ public class BinaryTree {
 			}
 		}
 	}
-	
+
 	public void calcular() throws FaltaDeParentesesException {
-		if(ref != root) {			
+		if (ref != root) {
+			// System.out.println("Erro ao calcular, falta de parenteses!");
 			throw new FaltaDeParentesesException();
-			
+
 		}
-		while(!ehFolha(root))
+		while (!ehFolha(root))
 			calcular(root);
 	}
-	
+
 	private void calcular(Node n) throws FaltaDeParentesesException {
-		if(n == null || n.element == null) {
-			
+		if (n == null || n.element == null) {
+			// System.out.println("Erro ao calcular, falta de parenteses !*");
 			throw new FaltaDeParentesesException();
-		}
-		if(filhosFolhas(n)) {
-			double elemento1 = Double.parseDouble(n.left.element);
-			double elemento2 = Double.parseDouble(n.right.element);
-			double resultado = 0;
-			switch (n.element) {
-            case "+":
-                resultado = elemento1 + elemento2;
-                break;
-            case "-":
-            	resultado = elemento1 - elemento2;
-                break;
-            case "*":
-            	resultado = elemento1 * elemento2;
-                break;
-            case "/":
-            	resultado = elemento1 / elemento2;
-                break;
-            case "^":
-            	resultado = Math.pow(elemento1, elemento2);
-                break;
-			}
-			n.left = null;count--;
-			n.right = null;count--;
-			n.set(""+resultado);
-			close();
-		}else {
-			if(!ehFolha(n.left)) {
-				calcular(n.left);
-			}else {
-				if(!ehFolha(n.right)) {
+		} else {
+			if (filhosFolhas(n)) {
+				double elemento1 = Double.parseDouble(n.left.element);
+				double elemento2 = Double.parseDouble(n.right.element);
+				double resultado = 0;
+				switch (n.element) {
+				case "+":
+					resultado = elemento1 + elemento2;
+					break;
+				case "-":
+					resultado = elemento1 - elemento2;
+					break;
+				case "*":
+					resultado = elemento1 * elemento2;
+					break;
+				case "/":
+					resultado = elemento1 / elemento2;
+					break;
+				case "^":
+					resultado = Math.pow(elemento1, elemento2);
+					break;
+				}
+				n.left = null;
+				count--;
+				n.right = null;
+				count--;
+				n.set("" + resultado);
+				close();
+			} else {
+				if (!ehFolha(n.left)) {
+					calcular(n.left);
+				}
+
+				if (!ehFolha(n.right)) {
 					calcular(n.right);
 				}
+
 			}
 		}
 	}
@@ -214,40 +217,42 @@ public class BinaryTree {
 	}
 
 	private boolean ehFolha(Node n) {
-		if(n != null)
+		if (n != null)
 			return (n.left == null && n.right == null);
 		return false;
 	}
-	
+
 	public boolean filhosFolhas(Node n) {
-		if(n != null)
-			if(n.left != null && n.right != null)
+		if (n != null)
+			if (n.left != null && n.right != null)
 				return (ehFolha(n.left) && ehFolha(n.right));
 		return false;
 	}
 
 	public void addOperador(String operador) throws FaltaDeParentesesException {
 		Node n = new Node(operador);
-			if (ref == null) {			
-				ref = n;
-				root.father = n;
-				root = n;			
-				
-				count++;
-				return;
-			}else {
-				if(ref.element == null) {
-					ref.set(operador);
-				}else {
-					throw new FaltaDeParentesesException();
-				}
+		if (ref == null) {
+			ref = n;
+			root.father = n;
+			root = n;
+
+			count++;
+			return;
+		} else {
+			if (ref.element == null) {
+				ref.set(operador);
+			} else {
+				// System.out.println("Erro ao calcular, falta de
+				// parenteses!**");
+				throw new FaltaDeParentesesException();
 			}
 		}
+	}
 
 	public void close() {
 		if (ref == root) {
 			return;
-		}else
+		} else
 			ref = ref.father;
 	}
 
@@ -356,9 +361,9 @@ public class BinaryTree {
 		return res;
 	}
 
-	private void positionsPosAux(Node n, LinkedList res) {		
+	private void positionsPosAux(Node n, LinkedList res) {
 		if (n != null) {
-			
+
 			positionsPosAux(n.left, res); // Visita a subarvore esquerda
 			positionsPosAux(n.right, res); // Visita a subarvore direita
 			res.add(n.element); // Visita o nodo
@@ -399,42 +404,43 @@ public class BinaryTree {
 	}
 
 	public String resultado() {
-		if(root == ref) {
+		if (root == ref) {
 			return root.element;
 		}
 		return null;
 	}
 
-	public int altura() {		
+	public int altura() {
 		altura(root);
 		return altura;
-		
+
 	}
-	
-	private void altura(Node n){
-		if(n == null){
+
+	private void altura(Node n) {
+		if (n == null) {
 			return;
-		}else{
-			
-				altura(n.left);				
-			
-				altura(n.right);
-			if(ehFolha(n)){
+		} else {
+
+			altura(n.left);
+
+			altura(n.right);
+			if (ehFolha(n)) {
 				numFolhas++;
 				total += Double.parseDouble(n.element);
 				int i = 1;
-				while(n.father != root){
+				while (n.father != root) {
 					i++;
 					n = n.father;
-				}if(i > altura)				
-					altura = i;
 				}
+				if (i > altura)
+					altura = i;
 			}
+		}
 	}
 
 	public double media() {
-		return total/numFolhas;
-		
+		return total / numFolhas;
+
 	}
-	
+
 }
